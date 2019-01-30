@@ -1,8 +1,8 @@
 import React from 'react'
-import {Link, Redirect} from 'react-router-dom'
-import {connect} from 'react-redux'
-import {loginUser} from '../../actions/login'
-import {Button} from '@material-ui/core'
+import { Link, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { loginUser } from '../../actions/login'
+import { Button } from '@material-ui/core'
 
 import '../../styles/styles.css'
 import logo from '../../images/logo-4.png'
@@ -10,35 +10,33 @@ import logo from '../../images/logo-4.png'
 import Nav from '../Nav/Nav'
 
 class Login extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      email: '',
-      hash: '',
-      disabled: true
-    }
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+  state = {
+    email: '',
+    hash: '',
+    disabled: true
   }
 
-  handleChange (e) {
+  handleChange(e) {
+    const state = this.state
     this.setState({
       [e.target.name]: e.target.value
     })
-    if (this.state.email && this.state.hash) {
+    if (state.email && state.hash) {
       this.setState({
         disabled: false
       })
     }
   }
 
-  handleSubmit (e) {
+  handleSubmit(e) {
+    const state = this.state
     e.preventDefault()
-    this.props.dispatch(loginUser(this.state.email, this.state.hash))
+    this.props.dispatch(loginUser(state.email, state.hash))
   }
 
-  render () {
-    const {error, isLoggedIn} = this.props
+  render() {
+    const { error, isLoggedIn } = this.props
+    const state = state
     return (
 
       <div className="login">
@@ -61,8 +59,8 @@ class Login extends React.Component {
                 placeholder="Email"
                 name="email"
                 margin="normal"
-                value={this.state.email}
-                onChange={this.handleChange} />
+                value={state.email}
+                onChange={() => this.handleChange} />
             </div>
             <div>
               <input
@@ -71,16 +69,16 @@ class Login extends React.Component {
                 placeholder="Password"
                 name="hash"
                 margin="normal"
-                value={this.state.hash}
-                onChange={this.handleChange} />
+                value={state.hash}
+                onChange={() => this.handleChange} />
             </div>
           </div>
 
           <div className="btn-group pure-u-1">
             <Button
               className='btn btn-primary'
-              onClick={this.handleSubmit}
-              disabled={this.state.disabled}>
+              onClick={() => this.handleSubmit}
+              disabled={state.disabled}>
               Go
             </Button>
           </div>
