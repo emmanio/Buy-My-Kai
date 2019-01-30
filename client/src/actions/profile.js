@@ -1,9 +1,9 @@
 import request from 'axios'
 
-import {getHeaders} from '../utils/api'
-import {setToken} from '../utils/token'
+import { getHeaders } from '../utils/api'
+import { setToken } from '../utils/token'
 
-import {getProducts} from './products'
+import { getProducts } from './products'
 
 export const PROFILE_ERROR = 'PROFILE_ERROR'
 export const PROFILE_PENDING = 'PROFILE_PENDING'
@@ -32,7 +32,7 @@ export const profileSuccess = user => {
   }
 }
 
-export function getProfile () {
+export function getProfile() {
   return dispatch => {
     dispatch(profilePending())
 
@@ -51,13 +51,13 @@ export function getProfile () {
   }
 }
 
-export function editUser (user) {
+export function editUser(user) {
   return dispatch => {
     dispatch(profilePending())
 
     const searchAddress = `${user.address} ${user.suburb} ${user.city} New Zealand`
     return getLatLng(searchAddress)
-      .then(({lat, lng: long}) => {
+      .then(({ lat, lng: long }) => {
         const userWithCoordinates = {
           ...user,
           lat,
@@ -78,9 +78,9 @@ export function editUser (user) {
   }
 }
 
-export function getLatLng (address) {
-  return request.post(GEOCODING_PROVIDER_URL, {location: address})
+export function getLatLng(address) {
+  return request.post(GEOCODING_PROVIDER_URL, { location: address })
     .then((response) => response.data.results[0].locations[0].latLng)
-  /* eslint-disable no-console */
+    /* eslint-disable no-console */
     .catch((error) => console.log(error))
 }
