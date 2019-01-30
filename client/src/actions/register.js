@@ -15,7 +15,7 @@ export const registerError = (errorMessage) => {
   }
 }
 
-export const registerPending = (errorMessage) => {
+export const registerPending = () => {
   return {
     type: REGISTER_PENDING
   }
@@ -31,7 +31,6 @@ export const registerSuccess = user => {
 export function postUser (user) {
   return dispatch => {
     dispatch(registerPending())
-
     const searchAddress = `${user.address} ${user.suburb} ${user.city} New Zealand`
     return getLatLng(searchAddress)
       .then(({lat, lng: long}) => {
@@ -46,7 +45,6 @@ export function postUser (user) {
             if (res.data.token) {
               setToken(res.data.token)
             }
-
             dispatch(registerSuccess(userWithCoordinates))
           })
       })
