@@ -1,63 +1,57 @@
-import {Button} from '@material-ui/core'
-import React from 'react'
-import {Map, Marker, Popup, TileLayer} from 'react-leaflet'
-import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
+import { Button } from '@material-ui/core'
+import React, { Component } from 'react'
+import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
-import {sendNeighbourhood} from '../../actions/area'
-import {mapDraw} from '../../actions/mapDraw'
+import { sendNeighbourhood } from '../../actions/area'
+import { mapDraw } from '../../actions/mapDraw'
 
 import MapDrawer from '../MapDrawer/MapDrawer'
 import Nav from '../Nav/Nav'
-import {selectUser} from '../../actions/userprofile'
+import { selectUser } from '../../actions/userprofile'
 
 import logo from '../../images/logo-4.png'
 import '../../styles/styles.css'
 
 import './styles.css'
 
-// const customMarker = L.icon({iconUrl: require('../ShowMap/marker-images/marker-icon-2x-vege.png')})
-
 const DEFAULT_CENTER = [-36.848, 174.763]
 
-class Area extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      suburb: ''
-    }
-    this.handleClick = this.handleClick.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-    this.openDrawer = this.openDrawer.bind(this)
+class Area extends Component {
+  state = {
+    suburb: ''
   }
 
-  handleClick () {
-    this.sendNeighbourhood(this.state.suburb)
+  handleClick() {
+    const suburb = this.state.suburb
+    this.sendNeighbourhood(suburb)
     this.setState({
       suburb: ''
     })
   }
 
-  handleChange (e) {
+  handleChange(e) {
     e.preventDefault()
     this.setState({
       [e.target.name]: e.target.value
     })
   }
 
-  sendNeighbourhood () {
-    this.props.dispatch(sendNeighbourhood(this.state.suburb))
+  sendNeighbourhood() {
+    const suburb = this.state.suburb
+    this.props.dispatch(sendNeighbourhood(suburb))
   }
 
-  openDrawer () {
+  openDrawer() {
     this.props.dispatch(mapDraw())
   }
 
-  handleUser (id) {
+  handleUser(id) {
     this.props.dispatch(selectUser(id))
   }
 
-  render () {
+  render() {
     const growers = this.props.growersList || []
     const center = growers.length ? [growers[0].lat, growers[0].long] : DEFAULT_CENTER
 
@@ -84,8 +78,8 @@ class Area extends React.Component {
                 name='suburb'
                 margin="normal"
                 value={this.state.suburb}
-                onChange={this.handleChange} />
-              <button className="btn btn-primary" onClick={this.handleClick}>SEARCH</button>
+                onChange={(e) => this.handleChange(e)} />
+              <button className="btn btn-primary" onClick={(e) => this.handleClick(e)}>SEARCH</button>
             </div></div>
           <div className="map">
             <Map className="Leaflet" center={center} zoom={13}>
@@ -104,12 +98,12 @@ class Area extends React.Component {
                 category,
                 product_name
               }) => (
-                <Marker onClick={() => this.handleUser(user_id)} key={user_id} position={[lat, long]}>
-                  <Popup className="popupMap">
-                    <Button className="popupButton" value={user_id} onClick={this.openDrawer}>{product_name}</Button>
-                  </Popup>
-                </Marker>
-              ))}
+                  <Marker onClick={() => this.handleUser(user_id)} key={user_id} position={[lat, long]}>
+                    <Popup className="popupMap">
+                      <Button className="popupButton" value={user_id} onClick={this.openDrawer.bind(this)}>{product_name}</Button>
+                    </Popup>
+                  </Marker>
+                ))}
             </Map>
           </div>
           <div className='backtotop  pure-u-1'>
