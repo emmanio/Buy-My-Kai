@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Nav (props) {
+export default function Nav() {
   return (
     <div className="pure-menu pure-menu-horizontal">
       <ul className="pure-menu-list">
