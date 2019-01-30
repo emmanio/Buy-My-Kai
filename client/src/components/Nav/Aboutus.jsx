@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function AboutUs (props) {
+export default function AboutUs() {
   return (
     <div className="pure-menu pure-menu-horizontal">
       <ul className="pure-menu-list">
